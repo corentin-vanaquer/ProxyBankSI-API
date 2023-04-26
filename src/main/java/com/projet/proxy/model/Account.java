@@ -2,10 +2,13 @@ package com.projet.proxy.model;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public abstract class Account {
@@ -16,6 +19,10 @@ public abstract class Account {
 	private String accountNumber;
 	private LocalDateTime dateCreation;
 	private double solde;
+	
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+	@JoinColumn(name = "Client_Id")
+	private Client client;
 	
 	public Account() {}
 
@@ -55,6 +62,14 @@ public abstract class Account {
 
 	public void setSolde(double solde) {
 		this.solde = solde;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
 	}
 	
 	

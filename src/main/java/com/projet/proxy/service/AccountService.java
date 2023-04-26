@@ -9,13 +9,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.projet.proxy.model.Account;
+import com.projet.proxy.model.Client;
 import com.projet.proxy.repository.AccountDao;
+import com.projet.proxy.repository.ClientDao;
 
 @Service
 public class AccountService implements IAccountService {
 
 	@Autowired
 	AccountDao accountDao;
+	
+	@Autowired
+	ClientDao clientDao;
 	
 	@Override
 	public List<Account> getAllAccounts() {
@@ -63,6 +68,18 @@ public class AccountService implements IAccountService {
 	    } else {
 	        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found with id: " + id);
 	    }
+	}
+
+	@Override
+	public void addClientToAccount(Long clientId, Long accountId) {
+		Optional<Account> account = accountDao.findById(accountId);
+		Optional<Client> client = clientDao.findById(clientId);
+		if(account.isPresent() && client.isPresent()) {
+			Account accountOne = account.get();
+			Client clientOne = client.get();
+			accountOne.setClient(clientOne);
+			accountDao.save(accountOne);
+		}
 	}
 
 }

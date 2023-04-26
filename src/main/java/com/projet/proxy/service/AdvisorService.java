@@ -3,12 +3,34 @@ package com.projet.proxy.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.projet.proxy.model.Advisor;
+import org.springframework.stereotype.Service;
 
-public interface AdvisorService {
-	List<Advisor> getAllAdvisors();
-	Advisor saveAdvisor(Advisor advisor);
-	Optional<Advisor> getById(Long id);
-	void deleteById(Long id);
+import com.projet.proxy.model.Advisor;
+import com.projet.proxy.repository.AdvisorDao;
+
+@Service("advisor")
+public class AdvisorService implements IAdvisorService {
+	private AdvisorDao advisorDao;
+
+	@Override
+	public List<Advisor> getAllAdvisors() {
+		return advisorDao.findAll();
+	}
+
+	@Override
+	public Advisor saveAdvisor(Advisor advisor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<Advisor> getById(Long id) {
+		return advisorDao.findById(id);
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		advisorDao.deleteById(id);	
+	}
 
 }

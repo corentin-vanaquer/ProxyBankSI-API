@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projet.proxy.model.Client;
-import com.projet.proxy.service.ClientService;
+import com.projet.proxy.service.IClientService;
 
 @RestController
 @RequestMapping("/clients")
 public class ClientController {
 
-	private ClientService client;
+	private IClientService client;
 
-	public ClientController(ClientService client) {
+	public ClientController(IClientService client) {
 		this.client = client;
 	}
 	
