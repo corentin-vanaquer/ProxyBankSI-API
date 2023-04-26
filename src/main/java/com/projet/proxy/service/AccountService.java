@@ -3,17 +3,19 @@ package com.projet.proxy.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.projet.proxy.model.Account;
 import com.projet.proxy.repository.AccountDao;
 
+@Service
 public class AccountService implements IAccountService {
 
 	@Autowired
 	AccountDao accountDao;
 	
 	@Override
-	public List<Account> getAllComptes() {
+	public List<Account> getAllAccounts() {
 		return accountDao.findAll();
 	}
 

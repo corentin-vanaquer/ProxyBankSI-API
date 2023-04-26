@@ -6,7 +6,7 @@ import com.projet.proxy.model.Account;
 
 public interface IAccountService {
 	
-	List<Account> getAllComptes();
+	List<Account> getAllAccounts();
 	Account getAccountById(Long id);
 	Account createAccount(Account account);
 	Account updateAccount(Account account);
