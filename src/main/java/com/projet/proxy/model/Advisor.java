@@ -1,23 +1,30 @@
 package com.projet.proxy.model;
 
 
-import java.io.Serializable;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity 
-public class Advisor implements Serializable {
+
+public class Advisor  {
+
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String firstName;
 	private String LastName;
 	private String email;
 	
-//	@OneToMany(mappedBy=)
-//	private Set<Client> clients = new HashSet<>();
+	@OneToMany(mappedBy= "advisor", cascade = {CascadeType.PERSIST})
+	private Set<Client> clients = new HashSet<Client>();
 
 	public Advisor() {}
 
@@ -67,15 +74,18 @@ public class Advisor implements Serializable {
 		return "Advisor [id=" + id + ", firstName=" + firstName + ", LastName=" + LastName + ", email=" + email + "]";
 	}
 	
-//	public Set<Client> getClients() {
-//		return clients;
-//	}
-//
-//	public void setClients(Set<Client> clients) {
-//		this.clients = clients;
-//	}
+	public Set<Client> getClients() {
+		return clients;
+	}
+
+	public void setClients(Set<Client> clients) {
+		this.clients = clients;
+	}
 	
-	
+	public void addClient(Client client) {
+		clients.add(client);
+		client.setConseillerAttribuer(this);
+	}
 	
 	
 	

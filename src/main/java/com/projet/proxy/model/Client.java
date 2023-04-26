@@ -1,10 +1,21 @@
 package com.projet.proxy.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
 
 @Entity
 @Table(name = "clients")
@@ -19,6 +30,15 @@ public class Client {
 	private String zipcode;
 	private String city;
 	private String phone;
+	
+	@ManyToOne(cascade = {CascadeType.PERSIST})
+	@JoinColumn(name = "Advisor_Id")
+	@JsonIgnore
+	private Advisor advisor;
+	
+	@OneToMany(mappedBy = "client", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+	@JsonIgnore
+	private Set<Account> accounts = new HashSet<Account>();
 	
 	//Constructor 
 	public Client(String name, String firstname, String address, String zipcode, String city, String phone) {
@@ -102,10 +122,37 @@ public class Client {
 		return "Client [id=" + id + ", name=" + name + ", firstname=" + firstname + ", address=" + address
 				+ ", zipcode=" + zipcode + ", city=" + city + ", phone=" + phone + "]";
 	}
+
+	public Advisor getAdvisor() {
+		return advisor;
+	}
+
+	public void setAdvisor(Advisor advisor) {
+		this.advisor = advisor;
+	}
 	
 	
+	public void setConseillerAttribuer(Advisor conseillerAttribuer) {
+		this.advisor = conseillerAttribuer;
+	}
+
+	public Set<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
+	}
 	
+	public void addAccount(Account account) {
+		accounts.add(account);
+		account.setClient(this);
+	}
 	
+	public void removeAccount(Account account) {
+		accounts.remove(account);
+		account.setClient(null);
+	}
 	
 
 }
