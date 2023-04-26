@@ -32,10 +32,10 @@ public class Client {
 	public Client() {
 		super();
 	}
-
-	
 	
 	//Class Method
+	
+	
 	
 	//Getters and Setters
 	public long getId() {

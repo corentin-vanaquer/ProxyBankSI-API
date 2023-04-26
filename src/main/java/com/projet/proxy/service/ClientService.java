@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import com.projet.proxy.model.Client;
 
-public interface ClientInterface {
-
+public interface ClientService {
+	
 	List<Client> getAllClients();
 
 	Client saveClient(Client client);
@@ -20,5 +20,5 @@ public interface ClientInterface {
 	Client updateClient(Client client);
 
 	//void AddAdvisorToClient(Long clientId, Long advisorId);
-	
+
 }

@@ -9,48 +9,42 @@ import com.projet.proxy.model.Client;
 import com.projet.proxy.repository.ClientDao;
 
 @Service("client")
-public class ClientImplementation implements ClientInterface {
-	
+public class IClientService implements ClientService{
+
 	private ClientDao clientDao;
 
-	public ClientImplementation(ClientDao clientDao) {
+	public IClientService(ClientDao clientDao) {
 		this.clientDao = clientDao;
 	}
 
 	@Override
 	public List<Client> getAllClients() {
-		// TODO Auto-generated method stub
-		return null;
+		return clientDao.findAll();
 	}
 
 	@Override
 	public Client saveClient(Client client) {
-		// TODO Auto-generated method stub
-		return null;
+		return clientDao.save(client);
 	}
 
 	@Override
 	public Optional<Client> getById(Long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		return clientDao.findById(id);
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
-		
+		clientDao.deleteById(id);		
 	}
 
 	@Override
 	public boolean clientIdExist(Long id) {
-		// TODO Auto-generated method stub
-		return false;
+		return clientDao.existsById(id);
 	}
 
 	@Override
 	public Client updateClient(Client client) {
-		// TODO Auto-generated method stub
-		return null;
+		return clientDao.save(client);
 	}
 
 }
