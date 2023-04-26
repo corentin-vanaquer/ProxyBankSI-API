@@ -18,7 +18,6 @@ import jakarta.persistence.OneToMany;
 
 
 @Entity
-@Table(name = "clients")
 public class Client {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
