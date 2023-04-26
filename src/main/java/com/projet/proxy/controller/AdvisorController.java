@@ -15,15 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projet.proxy.model.Advisor;
-import com.projet.proxy.service.AdvisorService;
+import com.projet.proxy.service.IAdvisorService;
 
 @RestController
 @RequestMapping("/advisors")
 public class AdvisorController {
+
 	private AdvisorService advisorService;
 	
 public AdvisorController(AdvisorService advisorService) {
 		this.advisorService = advisorService;
+
 	}
 // Get list of all advisors
 @GetMapping

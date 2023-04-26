@@ -1,29 +1,27 @@
 package com.projet.proxy.controller;
 
+import java.rmi.ServerException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projet.proxy.model.Client;
-import com.projet.proxy.service.ClientService;
+import com.projet.proxy.service.IClientService;
 
 @RestController
 @RequestMapping("/clients")
 public class ClientController {
 
-	private ClientService client;
+	private IClientService client;
 
-	public ClientController(ClientService client) {
+	public ClientController(IClientService client) {
 		this.client = client;
 	}
 	
@@ -39,14 +37,15 @@ public class ClientController {
 	}
 	
 	//Use to create a new Client
-//	@PostMapping
-//	public Client saveClient(@RequestBody Client c) {
-//		client.saveClient(c);
-//		if (client.) {
-//			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//		}
-//		return new ResponseEntity<>(c, HttpStatus.CREATED);
-//	}
+	@PostMapping
+	public ResponseEntity<Client> saveClient(@RequestBody Client c) {
+		Client newClient = client.saveClient(c);
+		if (newClient == null ) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<>(newClient, HttpStatus.CREATED);
+		}
+	}
 
 	//Use to get a single Client by his/her id
 //	@GetMapping("/{id}")
@@ -54,6 +53,7 @@ public class ClientController {
 //		return client.getById(id);
 //	}
 //
+	//Use To Delete a Client 
 //	@DeleteMapping("/{id}")
 //	public void deleteClient(@PathVariable Long id) {
 //		client.deleteById(id);
