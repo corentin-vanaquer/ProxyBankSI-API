@@ -12,5 +12,6 @@ public interface IAccountService {
 	Account updateAccount(Account account);
 	boolean isAccountExists(Long id);
 	void deleteAccountById(Long id);
+	void addClientToAccount(Long ClientId, Long accountId);
 
 }
