@@ -10,7 +10,7 @@ public class SavingsAccount extends Account{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	private double rate;
 	
 	public SavingsAccount() {}
@@ -20,11 +20,11 @@ public class SavingsAccount extends Account{
 		this.rate = rate;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

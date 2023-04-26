@@ -10,7 +10,7 @@ public class CurrentAccount extends Account{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	private Integer threshold;
 	
 	public CurrentAccount() {}
@@ -20,11 +20,11 @@ public class CurrentAccount extends Account{
 		this.threshold = threshold;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
