@@ -1,5 +1,6 @@
 package com.projet.proxy.model;
 
+
 import java.io.Serializable;
 
 import jakarta.persistence.Entity;
@@ -7,7 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 @Entity 
-public class Advisor implements Serializable{
+public class Advisor implements Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -27,6 +28,8 @@ public class Advisor implements Serializable{
 		this.email = email;
 	}
 
+	
+	// Getters and Setters
 	public Long getId() {
 		return id;
 	}
@@ -59,6 +62,11 @@ public class Advisor implements Serializable{
 		this.email = email;
 	}
 
+	@Override
+	public String toString() {
+		return "Advisor [id=" + id + ", firstName=" + firstName + ", LastName=" + LastName + ", email=" + email + "]";
+	}
+	
 //	public Set<Client> getClients() {
 //		return clients;
 //	}
