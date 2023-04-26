@@ -3,6 +3,7 @@ package com.projet.proxy.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projet.proxy.model.Client;
@@ -11,6 +12,7 @@ import com.projet.proxy.repository.ClientDao;
 @Service("client")
 public class IClientService implements ClientService{
 
+	@Autowired
 	private ClientDao clientDao;
 
 	public IClientService(ClientDao clientDao) {
