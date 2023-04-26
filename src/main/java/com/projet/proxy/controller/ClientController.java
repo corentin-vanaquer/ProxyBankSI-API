@@ -1,6 +1,5 @@
 package com.projet.proxy.controller;
 
-import java.rmi.ServerException;
 import java.util.ArrayList;
 import java.util.List;
 
