@@ -1,14 +1,13 @@
 package com.projet.proxy.model;
 
 
-import java.io.Serializable;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 @Entity 
-public class Advisor implements Serializable {
+public class Advisor  {
 	@Id
 	@GeneratedValue
 	private Long id;
