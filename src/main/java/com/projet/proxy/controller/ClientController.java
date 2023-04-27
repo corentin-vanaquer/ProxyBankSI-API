@@ -74,10 +74,9 @@ public class ClientController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<Client> updateClient(@RequestBody Client c, @RequestBody Advisor a) {
+	public ResponseEntity<Client> updateClient(@RequestBody Client c) {
 		if (client.clientIdExist(c.getId())) {
 			Client updateClient = client.updateClient(c);
-			updateClient.setAdvisor(a);
 			return ResponseEntity.ok(updateClient);
 		}
 		Client saveClient = client.updateClient(c);
