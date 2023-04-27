@@ -37,7 +37,11 @@ public class Client {
 	
 	@OneToMany(mappedBy = "client", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
 	@JsonIgnore
-	private Set<Account> accounts = new HashSet<Account>();
+	private Set<SavingsAccount> savingAccountsList = new HashSet<SavingsAccount>();
+	
+	@OneToMany(mappedBy = "client", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+	@JsonIgnore
+	private Set<CurrentAccount> currentAccountList = new HashSet<CurrentAccount>();
 	
 	//Constructor 
 	public Client(String name, String firstname, String address, String zipcode, String city, String phone) {
@@ -135,23 +139,43 @@ public class Client {
 		this.advisor = conseillerAttribuer;
 	}
 
-	public Set<Account> getAccounts() {
-		return accounts;
-	}
 
-	public void setAccounts(Set<Account> accounts) {
-		this.accounts = accounts;
-	}
-	
-	public void addAccount(Account account) {
-		accounts.add(account);
-		account.setClient(this);
-	}
-	
-	public void removeAccount(Account account) {
-		accounts.remove(account);
-		account.setClient(null);
-	}
 	
 
+	public Set<SavingsAccount> getSavingAccountsList() {
+		return savingAccountsList;
+	}
+
+	public void setSavingAccountsList(Set<SavingsAccount> savingAccountsList) {
+		this.savingAccountsList = savingAccountsList;
+	}
+
+	public Set<CurrentAccount> getCurrentAccountList() {
+		return currentAccountList;
+	}
+
+	public void setCurrentAccountList(Set<CurrentAccount> currentAccountList) {
+		this.currentAccountList = currentAccountList;
+	}
+
+	public void addSavingAccount(SavingsAccount savingsAccount) {
+		savingAccountsList.add(savingsAccount);
+		savingsAccount.setClient(this);
+	}
+	
+	public void removeSavingAccount(SavingsAccount savingsAccount) {
+		savingAccountsList.remove(savingsAccount);
+		savingsAccount.setClient(null);
+	}
+	
+
+	public void addCurrentAccount(CurrentAccount currentAccount) {
+		currentAccountList.add(currentAccount);
+		currentAccount.setClient(this);
+	}
+	
+	public void removeAccount(SavingsAccount currentAccount) {
+		currentAccountList.remove(currentAccount);
+		currentAccount.setClient(null);
+	}
 }
