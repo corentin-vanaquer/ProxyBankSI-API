@@ -1,5 +1,6 @@
 package com.projet.proxy.controller;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -42,16 +43,18 @@ public ResponseEntity<List<Advisor>> listAdvisors(){
 // Create new advisor
 @PostMapping
 public ResponseEntity<Advisor> saveAdvisor(@RequestBody Advisor a){
-	Advisor advisor = advisorService.saveAdvisor(a);
-	if(advisor == null) {
+	Advisor newAdvisor = advisorService.saveAdvisor(a);
+	System.out.println(newAdvisor);
+	if(newAdvisor == null) {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}else {
-		return new ResponseEntity<>(advisor,HttpStatus.CREATED);
+		return new ResponseEntity<>(newAdvisor, HttpStatus.CREATED);
+		
 	}
 }
 
 // get advisor by Id
-@GetMapping("/advisors/{id}")
+@GetMapping("/{id}")
 public ResponseEntity<Advisor> getAdvisorById(@PathVariable Long id){
 	 Optional<Advisor> advisor = advisorService.getById(id);
 	 if(advisor.isPresent()) {
@@ -62,13 +65,14 @@ public ResponseEntity<Advisor> getAdvisorById(@PathVariable Long id){
 }
 
 // update advisor
-@PutMapping("/advisors/{id}")
-public ResponseEntity<Advisor> updateAdvisor(@PathVariable("id") Long id, @RequestBody Advisor advisor){
-	Optional<Advisor> advisorData = advisorService.getById(id);
-	if(advisorData.isPresent()) {
-		return new ResponseEntity<>(advisorService.saveAdvisor(advisor), HttpStatus.OK);
+@PutMapping
+public ResponseEntity<Advisor> updateAdvisor(@RequestBody Advisor a){
+	if(advisorService.advisorIdExist(a.getId())) {
+		Advisor advisorUpdated = advisorService.updateAdvisor(a);
+		return ResponseEntity.status(HttpStatus.OK).body(advisorUpdated);
 	}else {
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		Advisor savedAdvisor = advisorService.updateAdvisor(a);
+		return ResponseEntity.created(URI.create("advisors/" +savedAdvisor.getId())).body(savedAdvisor);
 	}
 }
 
