@@ -71,8 +71,7 @@ public ResponseEntity<Advisor> updateAdvisor(@RequestBody Advisor a){
 		Advisor advisorUpdated = advisorService.updateAdvisor(a);
 		return ResponseEntity.status(HttpStatus.OK).body(advisorUpdated);
 	}else {
-		Advisor savedAdvisor = advisorService.updateAdvisor(a);
-		return ResponseEntity.created(URI.create("advisors/" +savedAdvisor.getId())).body(savedAdvisor);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 }
 
