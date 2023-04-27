@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.projet.proxy.model.Client;
@@ -12,6 +13,7 @@ import com.projet.proxy.model.SavingsAccount;
 import com.projet.proxy.repository.ClientDao;
 import com.projet.proxy.repository.SavingAccountDao;
 
+@Service
 public class SavingAccountService implements ISavingAccountService {
 	
 	@Autowired
