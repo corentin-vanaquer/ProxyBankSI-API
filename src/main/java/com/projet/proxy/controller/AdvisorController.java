@@ -2,6 +2,7 @@ package com.projet.proxy.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,10 +51,26 @@ public ResponseEntity<Advisor> saveAdvisor(@RequestBody Advisor a){
 }
 
 // get advisor by Id
-@GetMapping("/{id}")
-//public ResponseEntity<Optional<Advisor>>getAdvisorById(@PathVariable Long id){
-//
-//			}
+@GetMapping("/advisors/{id}")
+public ResponseEntity<Advisor> getAdvisorById(@PathVariable Long id){
+	 Optional<Advisor> advisor = advisorService.getById(id);
+	 if(advisor.isPresent()) {
+	return new ResponseEntity<>(advisor.get(), HttpStatus.OK);
+	}else {
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);	
+	}
+}
+
+// update advisor
+@PutMapping("/advisors/{id}")
+public ResponseEntity<Advisor> updateAdvisor(@PathVariable("id") Long id, @RequestBody Advisor advisor){
+	Optional<Advisor> advisorData = advisorService.getById(id);
+	if(advisorData.isPresent()) {
+		return new ResponseEntity<>(advisorService.saveAdvisor(advisor), HttpStatus.OK);
+	}else {
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+}
 
 //delete advisor 
 @DeleteMapping("/{id}")
