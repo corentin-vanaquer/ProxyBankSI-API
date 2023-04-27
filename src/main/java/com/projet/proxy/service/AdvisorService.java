@@ -23,7 +23,7 @@ public class AdvisorService implements IAdvisorService {
 	@Override
 	public Advisor saveAdvisor(Advisor advisor) {
 		// TODO Auto-generated method stub
-		return null;
+		return advisorDao.save(advisor);
 	}
 
 	@Override
@@ -34,6 +34,16 @@ public class AdvisorService implements IAdvisorService {
 	@Override
 	public void deleteById(Long id) {
 		advisorDao.deleteById(id);	
+	}
+
+	@Override
+	public Advisor updateAdvisor(Advisor advisor) {
+		return advisorDao.save(advisor);
+	}
+
+	@Override
+	public boolean advisorIdExist(Long id) {
+		return advisorDao.existsById(id);
 	}
 
 }
