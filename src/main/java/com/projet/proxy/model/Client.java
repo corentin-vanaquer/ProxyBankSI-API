@@ -174,7 +174,7 @@ public class Client {
 		currentAccount.setClient(this);
 	}
 	
-	public void removeAccount(SavingsAccount currentAccount) {
+	public void removeAccount(CurrentAccount currentAccount) {
 		currentAccountList.remove(currentAccount);
 		currentAccount.setClient(null);
 	}
