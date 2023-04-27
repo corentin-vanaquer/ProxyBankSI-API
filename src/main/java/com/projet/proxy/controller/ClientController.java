@@ -1,19 +1,22 @@
 package com.projet.proxy.controller;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projet.proxy.model.Account;
+import com.projet.proxy.model.Advisor;
 import com.projet.proxy.model.Client;
 import com.projet.proxy.service.IClientService;
 
@@ -61,10 +64,25 @@ public class ClientController {
 	    }
 	}
 
-	
-	
 	//Use To Delete a Client 
-
+	@DeleteMapping("/{id}")
+	public void deleteClient(@PathVariable long id){
+		if(client.getById(id)==null) {
+			new ResponseEntity<>(HttpStatus.BAD_REQUEST);	
+		}
+		client.deleteById(id);
+	}
+	
+	@PutMapping
+	public ResponseEntity<Client> updateClient(@RequestBody Client c, @RequestBody Advisor a) {
+		if (client.clientIdExist(c.getId())) {
+			Client updateClient = client.updateClient(c);
+			updateClient.setAdvisor(a);
+			return ResponseEntity.ok(updateClient);
+		}
+		Client saveClient = client.updateClient(c);
+		return ResponseEntity.created(URI.create("clients/" + saveClient.getId())).body(saveClient);
+	}
 	
 	
 }
