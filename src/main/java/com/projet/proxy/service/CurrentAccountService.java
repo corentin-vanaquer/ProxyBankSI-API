@@ -8,28 +8,28 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.projet.proxy.model.Account;
 import com.projet.proxy.model.Client;
-import com.projet.proxy.repository.AccountDao;
+import com.projet.proxy.model.CurrentAccount;
 import com.projet.proxy.repository.ClientDao;
+import com.projet.proxy.repository.CurrentAccountDao;
 
 @Service
-public class AccountService implements IAccountService {
+public class CurrentAccountService implements ICurrentAccountService {
 
 	@Autowired
-	AccountDao accountDao;
+	CurrentAccountDao currentAccountDao;
 	
 	@Autowired
 	ClientDao clientDao;
 	
 	@Override
-	public List<Account> getAllAccounts() {
-		return accountDao.findAll();
+	public List<CurrentAccount> getAllCurrentAccounts() {
+		return currentAccountDao.findAll();
 	}
 
 	@Override
-	public Account getAccountById(Long id) {
-	    Optional<Account> account = accountDao.findById(id);
+	public CurrentAccount getCurrentAccountById(Long id) {
+	    Optional<CurrentAccount> account = currentAccountDao.findById(id);
 	    if (account.isPresent()) {
 	        return account.get();
 	    } else {
@@ -39,46 +39,46 @@ public class AccountService implements IAccountService {
 
 
 	@Override
-	public Account createAccount(Account account) {
-	    if (account.getId() != null && accountDao.existsById(account.getId())) {
+	public CurrentAccount createCurrentAccount(CurrentAccount account) {
+	    if (account.getId() != null && currentAccountDao.existsById(account.getId())) {
 	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Account already exists with id: " + account.getId());
 	    }
-	    return accountDao.save(account);
+	    return currentAccountDao.save(account);
 	}
 
 
 	@Override
-	public Account updateAccount(Account updatedAccount) {
-	    if (!accountDao.existsById(updatedAccount.getId())) {
+	public CurrentAccount updateCurrentAccount(CurrentAccount updatedAccount) {
+	    if (!currentAccountDao.existsById(updatedAccount.getId())) {
 	        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found with id: " + updatedAccount.getId());
 	    }
-	    return accountDao.save(updatedAccount);
+	    return currentAccountDao.save(updatedAccount);
 	}
 
 
 	@Override
-	public boolean isAccountExists(Long id) {
-		return accountDao.existsById(id);
+	public boolean isCurrentAccountExists(Long id) {
+		return currentAccountDao.existsById(id);
 	}
 
 	@Override
-	public void deleteAccountById(Long id) {
-	    if (accountDao.existsById(id)) {
-	        accountDao.deleteById(id);
+	public void deleteCurrentAccountById(Long id) {
+	    if (currentAccountDao.existsById(id)) {
+	    	currentAccountDao.deleteById(id);
 	    } else {
 	        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found with id: " + id);
 	    }
 	}
 
 	@Override
-	public void addClientToAccount(Long clientId, Long accountId) {
-		Optional<Account> account = accountDao.findById(accountId);
+	public void addClientToCurrentAccount(Long clientId, Long accountId) {
+		Optional<CurrentAccount> account = currentAccountDao.findById(accountId);
 		Optional<Client> client = clientDao.findById(clientId);
 		if(account.isPresent() && client.isPresent()) {
-			Account accountOne = account.get();
+			CurrentAccount accountOne = account.get();
 			Client clientOne = client.get();
 			accountOne.setClient(clientOne);
-			accountDao.save(accountOne);
+			currentAccountDao.save(accountOne);
 		}
 	}
 
