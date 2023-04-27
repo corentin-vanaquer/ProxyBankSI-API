@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projet.proxy.model.Advisor;
 import com.projet.proxy.model.Client;
 import com.projet.proxy.service.IClientService;
 

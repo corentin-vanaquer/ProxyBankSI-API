@@ -2,7 +2,6 @@ package com.projet.proxy.service;
 
 import java.util.List;
 
-import com.projet.proxy.model.Advisor;
 import com.projet.proxy.model.SavingsAccount;
 
 public interface ISavingAccountService {

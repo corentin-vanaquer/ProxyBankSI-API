@@ -17,7 +17,7 @@ import com.projet.proxy.model.CurrentAccount;
 import com.projet.proxy.service.ICurrentAccountService;
 
 @RestController
-@RequestMapping("/accounts")
+@RequestMapping("/currentAccounts")
 public class CurrentAccountController {
 
 	@Autowired ICurrentAccountService currentAccountService;
@@ -28,7 +28,7 @@ public class CurrentAccountController {
 	 * else -> HTTP 200 (OK) response, with the list of currentAccounts in the response body.
 	 * @return A ResponseEntity containing the list of currentAccounts and the corresponding HTTP response code.
 	 */
-	@GetMapping("/accounts")
+	@GetMapping
 	ResponseEntity<List<CurrentAccount>> getAccounts(){
 		
 		List<CurrentAccount> accountList = new ArrayList<>();
@@ -49,7 +49,7 @@ public class CurrentAccountController {
 	 * @param id The ID of the currentAccounts to retrieve.
 	 * @return A ResponseEntity containing the retrieved currentAccounts object, or an appropriate HTTP response if the currentAccounts does not exist.
 	 */
-	@GetMapping("/accounts/{id}")
+	@GetMapping("/{id}")
 	ResponseEntity<CurrentAccount> getAccountById(@PathVariable Long id){
 		CurrentAccount currentAccountFetched = currentAccountService.getCurrentAccountById(id);
 		
@@ -67,7 +67,7 @@ public class CurrentAccountController {
 	 * @param account the account to be created
 	 * @return ResponseEntity<Account> containing the created currentAccounts and the corresponding HTTP response code
 	 */
-	@PostMapping("/accounts")
+	@PostMapping
 	ResponseEntity<CurrentAccount> saveAccount(@RequestBody CurrentAccount account){
 		CurrentAccount newAccount = currentAccountService.createCurrentAccount(account);
 		if(newAccount == null) 
