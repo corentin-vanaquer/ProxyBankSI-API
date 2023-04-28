@@ -43,7 +43,7 @@ public class InitDb {
 		clientTwo.addCurrentAccount(accountThree);
 		clientTwo.addCurrentAccount(accountFour);
 		clientTwo.addCurrentAccount(accountFive);
-		clientThree.addSavingAccount(accountSix);
+		clientOne.addSavingAccount(accountSix);
 		clientThree.addSavingAccount(accountSeven);
 		
 		// ~~~~~ ASSIGNATION CLIENT ~~~~~
