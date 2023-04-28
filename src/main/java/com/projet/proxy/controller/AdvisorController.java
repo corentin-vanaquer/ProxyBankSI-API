@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,70 +18,88 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.projet.proxy.model.Advisor;
 import com.projet.proxy.service.AdvisorService;
+import com.projet.proxy.service.IClientService;
 
 @RestController
 @RequestMapping("/advisors")
 public class AdvisorController {
 
+	@Autowired
 	private AdvisorService advisorService;
 	
-public AdvisorController(AdvisorService advisorService) {
-		this.advisorService = advisorService;
+	@Autowired
+	private IClientService clientService;
+	
 
+	// Get list of all advisors
+	@GetMapping
+	public ResponseEntity<List<Advisor>> listAdvisors(){
+		List<Advisor> advisors = new ArrayList<>();
+		advisors.addAll(advisorService.getAllAdvisors());
+		if(advisors.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(advisors, HttpStatus.OK);
 	}
-// Get list of all advisors
-@GetMapping
-public ResponseEntity<List<Advisor>> listAdvisors(){
-	List<Advisor> advisors = new ArrayList<>();
-	advisors.addAll(advisorService.getAllAdvisors());
-	if(advisors.isEmpty()) {
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	
+	// Create new advisor
+	@PostMapping
+	public ResponseEntity<Advisor> saveAdvisor(@RequestBody Advisor a){
+		Advisor newAdvisor = advisorService.saveAdvisor(a);
+		System.out.println(newAdvisor);
+		if(newAdvisor == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+			return new ResponseEntity<>(newAdvisor, HttpStatus.CREATED);
+			
+		}
 	}
-	return new ResponseEntity<>(advisors, HttpStatus.OK);
-}
+	
+	// get advisor by Id
+	@GetMapping("/{id}")
+	public ResponseEntity<Advisor> getAdvisorById(@PathVariable Long id){
+		 Optional<Advisor> advisor = advisorService.getById(id);
+		 if(advisor.isPresent()) {
+		return new ResponseEntity<>(advisor.get(), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);	
+		}
+	}
+	
+	// update advisor
+	@PutMapping
+	public ResponseEntity<Advisor> updateAdvisor(@RequestBody Advisor a){
+		if(advisorService.advisorIdExist(a.getId())) {
+			Advisor advisorUpdated = advisorService.updateAdvisor(a);
+			return ResponseEntity.status(HttpStatus.OK).body(advisorUpdated);
+		}else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+	}
+	
+	//delete advisor 
+	@DeleteMapping("/{id}")
+	public void deleteAdvisor(@PathVariable long id){
+		if(advisorService.getById(id)==null) {
+			new ResponseEntity<>(HttpStatus.BAD_REQUEST);	
+		}
+		advisorService.deleteById(id);
+	}
+	
+	@GetMapping("/client/{id}/accounts")
+	public ResponseEntity<Object> getAccountsFromClient(@PathVariable Long id){
+	    if (clientService.clientIdExist(id)) {
+	        List<Object> accountsFromClient = clientService.getAccountsFromClient(id);
+	        if (accountsFromClient != null && !accountsFromClient.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.OK).body(accountsFromClient);
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	        }
+	    } else {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	    }
+	}
 
-// Create new advisor
-@PostMapping
-public ResponseEntity<Advisor> saveAdvisor(@RequestBody Advisor a){
-	Advisor newAdvisor = advisorService.saveAdvisor(a);
-	System.out.println(newAdvisor);
-	if(newAdvisor == null) {
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}else {
-		return new ResponseEntity<>(newAdvisor, HttpStatus.CREATED);
-		
-	}
-}
 
-// get advisor by Id
-@GetMapping("/{id}")
-public ResponseEntity<Advisor> getAdvisorById(@PathVariable Long id){
-	 Optional<Advisor> advisor = advisorService.getById(id);
-	 if(advisor.isPresent()) {
-	return new ResponseEntity<>(advisor.get(), HttpStatus.OK);
-	}else {
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);	
-	}
-}
-
-// update advisor
-@PutMapping
-public ResponseEntity<Advisor> updateAdvisor(@RequestBody Advisor a){
-	if(advisorService.advisorIdExist(a.getId())) {
-		Advisor advisorUpdated = advisorService.updateAdvisor(a);
-		return ResponseEntity.status(HttpStatus.OK).body(advisorUpdated);
-	}else {
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-	}
-}
-
-//delete advisor 
-@DeleteMapping("/{id}")
-public void deleteAdvisor(@PathVariable long id){
-	if(advisorService.getById(id)==null) {
-		new ResponseEntity<>(HttpStatus.BAD_REQUEST);	
-	}
-	advisorService.deleteById(id);
-}
 
 }

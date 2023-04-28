@@ -118,5 +118,4 @@ public class CurrentAccountService implements ICurrentAccountService {
 		currentAccountDao.save(receivingAccount);
 		
 	}
-	
 }

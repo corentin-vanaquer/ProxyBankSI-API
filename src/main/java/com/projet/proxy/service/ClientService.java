@@ -1,5 +1,6 @@
 package com.projet.proxy.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,5 +67,20 @@ public class ClientService implements IClientService{
         }
 		
 	}
+
+	@Override
+	public List<Object> getAccountsFromClient(Long id) {
+	    Optional<Client> result = clientDao.findById(id);
+	    if (result.isPresent()) {
+	        Client clientFetched = result.get();
+	        List<Object> accountList = new ArrayList<>();
+	        accountList.addAll(clientFetched.getCurrentAccountList());
+	        accountList.addAll(clientFetched.getSavingAccountsList());
+	        return accountList;
+	    } else {
+	        throw new IllegalArgumentException("Client non trouvé pour l'id: " + id);
+	    }
+	}
+
 
 }

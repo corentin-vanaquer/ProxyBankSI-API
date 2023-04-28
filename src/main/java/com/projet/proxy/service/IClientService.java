@@ -20,5 +20,7 @@ public interface IClientService {
 	Client updateClient(Client client);
 
 	void addAdvisorToClient(Long clientId, Long advisorId);
+	
+	List<Object> getAccountsFromClient(Long id);
 
 }
