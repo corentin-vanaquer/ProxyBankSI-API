@@ -79,5 +79,22 @@ public class SavingAccountService implements ISavingAccountService {
 	}
 
 	}
-
+//	@Override
+//	public void virement(Long senderId, Long receivingID, double amount) {
+//		Optional<SavingsAccount> optionalSenderAccount = savingAccountDao.findById(senderId);
+//		SavingsAccount senderAccount = optionalSenderAccount.orElseThrow();
+//		Optional<SavingsAccount> optionalReceivingAccount = savingAccountDao.findById(receivingID);
+//		SavingsAccount receivingAccount = optionalReceivingAccount.orElseThrow();
+//		
+//		if (amount > 0) {
+//			if ( senderAccount.getSolde() > amount) {
+//				senderAccount.setSolde(senderAccount.getSolde() - amount);
+//				receivingAccount.setSolde(receivingAccount.getSolde() + amount);
+//				
+//				savingAccountDao.save(senderAccount);
+//				savingAccountDao.save(receivingAccount);
+//			}
+//		}
+//		
+//	}
 }

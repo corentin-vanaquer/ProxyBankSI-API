@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projet.proxy.model.CurrentAccount;
@@ -75,5 +76,11 @@ public class CurrentAccountController {
 		else
 			return ResponseEntity.status(HttpStatus.CREATED).body(newAccount);
 	}
+	
+//	@PostMapping("/{senderAccountId}/transfer/{receivingAccountId}")
+//	public ResponseEntity<CurrentAccount> doTransfer(@PathVariable long senderAccountId, @PathVariable long receivingAccountId, @RequestParam double amount){
+//		currentAccountService.doVirement(virement);
+//		return ResponseEntity.ok().build();
+//	}
 	
 }

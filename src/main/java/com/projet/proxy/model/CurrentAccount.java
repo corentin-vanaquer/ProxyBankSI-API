@@ -25,6 +25,10 @@ public class CurrentAccount {
 	@JoinColumn(name = "Client_Id")
 	private Client client;
 	
+//	@OneToMany(mappedBy = "firstAccount", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+//	@JsonIgnore
+//	private Set<Virement> virementList = new HashSet<Virement>();
+	
 	public CurrentAccount() {}
 
 	public CurrentAccount(String accountNumber, double solde, Integer threshold) {
@@ -32,6 +36,18 @@ public class CurrentAccount {
 		this.solde = solde;
 		this.threshold = threshold;
 		this.dateCreation = LocalDateTime.now();
+	}
+	
+	public void withdrawal(double amount) {
+		if ( amount <= solde) {
+			solde -= amount;
+		} else {
+			throw new IllegalArgumentException("Not Enough Fond");
+		}
+	}
+	
+	public void deposit(double amount) {
+		solde += amount;
 	}
 
 
