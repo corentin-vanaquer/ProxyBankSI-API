@@ -11,7 +11,7 @@ import com.projet.proxy.repository.AdvisorDao;
 
 @Service("advisor")
 public class AdvisorService implements IAdvisorService {
-	
+
 	@Autowired
 	private AdvisorDao advisorDao;
 
@@ -22,7 +22,6 @@ public class AdvisorService implements IAdvisorService {
 
 	@Override
 	public Advisor saveAdvisor(Advisor advisor) {
-		// TODO Auto-generated method stub
 		return advisorDao.save(advisor);
 	}
 
@@ -33,7 +32,7 @@ public class AdvisorService implements IAdvisorService {
 
 	@Override
 	public void deleteById(Long id) {
-		advisorDao.deleteById(id);	
+		advisorDao.deleteById(id);
 	}
 
 	@Override

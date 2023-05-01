@@ -73,6 +73,14 @@ public class CurrentAccountService implements ICurrentAccountService {
 		}
 	}
 
+	/**
+	 * This method adds a client to a current account. It takes two parameters:
+	 * `clientId` and `accountId`, which are used to fetch the corresponding
+	 * `Client` and `CurrentAccount` objects from the database using their
+	 * respective IDs. If both objects are present, the `Client` is added to the
+	 * `CurrentAccount` and the changes are persisted to the database. If either the
+	 * `Client` or `CurrentAccount` is not found, the method does nothing.
+	 */
 	@Override
 	public void addClientToCurrentAccount(Long clientId, Long accountId) {
 		Optional<CurrentAccount> account = currentAccountDao.findById(accountId);
@@ -85,19 +93,17 @@ public class CurrentAccountService implements ICurrentAccountService {
 		}
 	}
 
-	@Override
-//	public void doVirement(Virement v) {
-//		Optional<CurrentAccount> optionalSenderAccount = currentAccountDao.findById(v.senderId);//getter
-//		CurrentAccount senderAccount = optionalSenderAccount.orElseThrow();
-//		Optional<CurrentAccount> optionalReceivingAccount = currentAccountDao.findById(v.receivingID);
-//		CurrentAccount receivingAccount = optionalReceivingAccount.orElseThrow();
-//
-//		Virement virement = new Virement(senderAccount, receivingAccount, amount);
-//		virement.DoTransfer();
-//	}
-	
-
-	
+	/**
+	 * This method performs a transfer operation between two current accounts. It
+	 * first retrieves the sender and receiver accounts from the database using
+	 * their respective IDs provided in the Virement object. If either of the
+	 * accounts is not found in the database, an exception is thrown.
+	 * 
+	 * Once both accounts are retrieved, the method calls the doTransfert() method
+	 * passing in the sender account, receiving account, and the amount to transfer.
+	 * The doTransfert() method is expected to perform the necessary checks to
+	 * ensure that the transfer is valid and then perform the transfer.
+	 */
 	public void doVirement(Virement v) {
 		Optional<CurrentAccount> optionalSenderAccount = currentAccountDao.findById(v.getFirstId());
 		CurrentAccount senderAccount = optionalSenderAccount.orElseThrow();
@@ -105,17 +111,31 @@ public class CurrentAccountService implements ICurrentAccountService {
 		CurrentAccount receivingAccount = optionalReceivingAccount.orElseThrow();
 
 		doTransfert(senderAccount, receivingAccount, v.getAmount());
-		
+
 	}
 
+	/**
+	 * This method performs a transfer of funds from one account to another. It
+	 * takes in two parameters of type CurrentAccount, representing the sender and
+	 * receiving accounts, and a double value representing the amount to transfer.
+	 * 
+	 * It first withdraws the amount from the sender account using the withdrawal
+	 * method of the CurrentAccount class and then deposits the same amount into the
+	 * receiving account using the deposit method of the same class. Finally, it
+	 * saves both accounts using the corresponding DAO's save method.
+	 * 
+	 * This method could potentially throw exceptions if the withdrawal fails due to
+	 * insufficient funds in the sender account or if one of the accounts does not
+	 * exist in the database.
+	 */
 	@Override
 	public void doTransfert(CurrentAccount senderAccount, CurrentAccount receivingAccount, double d) {
 		System.out.println(senderAccount + " " + receivingAccount + " " + d);
 		senderAccount.withdrawal(d);
 		receivingAccount.deposit(d);
-		
+
 		currentAccountDao.save(senderAccount);
 		currentAccountDao.save(receivingAccount);
-		
+
 	}
 }
