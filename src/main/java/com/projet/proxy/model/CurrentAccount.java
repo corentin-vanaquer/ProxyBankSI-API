@@ -39,6 +39,11 @@ public class CurrentAccount {
 		this.dateCreation = LocalDateTime.now();
 	}
 
+	public CurrentAccount(Long id, double solde) {
+		this.id = id;
+		this.solde = solde;
+	}
+
 	/**
 	 * 
 	 * Withdraws a given amount from the account balance if the balance is
