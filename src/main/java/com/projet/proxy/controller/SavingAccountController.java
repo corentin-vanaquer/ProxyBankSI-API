@@ -20,45 +20,44 @@ import com.projet.proxy.service.ISavingAccountService;
 @RestController
 @RequestMapping("/savingAccounts")
 public class SavingAccountController {
-	
+
 	@Autowired
 	ISavingAccountService savingAccountService;
-	
+
 	@GetMapping
-	ResponseEntity<List<SavingsAccount>> getAccounts(){
-		
+	ResponseEntity<List<SavingsAccount>> getAccounts() {
+
 		List<SavingsAccount> accountList = new ArrayList<>();
 		accountList = savingAccountService.getAllSavingAccounts();
-		
-	    switch (accountList.size()) {
-        case 0:
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        default:
-            return ResponseEntity.status(HttpStatus.OK).body(accountList);
-    } 
+
+		switch (accountList.size()) {
+		case 0:
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		default:
+			return ResponseEntity.status(HttpStatus.OK).body(accountList);
+		}
 	}
 
 	@GetMapping("/{id}")
-	ResponseEntity<SavingsAccount> getAccountById(@PathVariable Long id){
+	ResponseEntity<SavingsAccount> getAccountById(@PathVariable Long id) {
 		SavingsAccount savingAccountFetched = savingAccountService.getSavingAccountById(id);
-		
-	    if (savingAccountFetched == null) {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-	    } else {
-	        return ResponseEntity.status(HttpStatus.OK).body(savingAccountFetched);
-	}	 
+
+		if (savingAccountFetched == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(savingAccountFetched);
+		}
 	}
-	
-	
+
 	@PostMapping
-	ResponseEntity<SavingsAccount> saveAccount(@RequestBody SavingsAccount account){
+	ResponseEntity<SavingsAccount> saveAccount(@RequestBody SavingsAccount account) {
 		SavingsAccount newAccount = savingAccountService.createSavingAccount(account);
-		if(newAccount == null) 
+		if (newAccount == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		else
 			return ResponseEntity.status(HttpStatus.CREATED).body(newAccount);
 	}
-	
+
 //	@PutMapping("transfer/{senderAccountId}/{receivingAccountId}")
 //	public ResponseEntity<SavingsAccount> doTransfer(@PathVariable long senderAccountId, @PathVariable long receivingAccountId, @RequestBody double amount){
 //		//System.out.println(senderAccountId + receivingAccountId + amount);
@@ -66,5 +65,5 @@ public class SavingAccountController {
 //		
 //		return ResponseEntity.ok().build();
 //	}
-	
+
 }

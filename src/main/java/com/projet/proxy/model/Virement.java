@@ -7,8 +7,6 @@ public class Virement {
 
 	private double amount;
 
-	
-
 	public long getFirstId() {
 		return firstId;
 	}

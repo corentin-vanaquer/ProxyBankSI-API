@@ -21,66 +21,74 @@ import com.projet.proxy.service.ICurrentAccountService;
 @RequestMapping("/currentAccounts")
 public class CurrentAccountController {
 
-	@Autowired ICurrentAccountService currentAccountService;
-	
+	@Autowired
+	ICurrentAccountService currentAccountService;
+
 	/**
-	 * Retrieves the list of currentAccounts.
-	 * If the list is empty -> HTTP 404 (NOT_FOUND) response, with a body null
-	 * else -> HTTP 200 (OK) response, with the list of currentAccounts in the response body.
-	 * @return A ResponseEntity containing the list of currentAccounts and the corresponding HTTP response code.
+	 * Retrieves the list of currentAccounts. If the list is empty -> HTTP 404
+	 * (NOT_FOUND) response, with a body null else -> HTTP 200 (OK) response, with
+	 * the list of currentAccounts in the response body.
+	 * 
+	 * @return A ResponseEntity containing the list of currentAccounts and the
+	 *         corresponding HTTP response code.
 	 */
 	@GetMapping
-	ResponseEntity<List<CurrentAccount>> getAccounts(){
-		
+	ResponseEntity<List<CurrentAccount>> getAccounts() {
+
 		List<CurrentAccount> accountList = new ArrayList<>();
 		accountList = currentAccountService.getAllCurrentAccounts();
-		
-	    switch (accountList.size()) {
-        case 0:
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        default:
-            return ResponseEntity.status(HttpStatus.OK).body(accountList);
-    } 
+
+		switch (accountList.size()) {
+		case 0:
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		default:
+			return ResponseEntity.status(HttpStatus.OK).body(accountList);
+		}
 	}
-	
+
 	/**
-	 * Retrieves a currentAccounts by its ID.
-	 * if currentAccounts is not found -> HTTP 404 (NOT_FOUND), with a body null.
-	 * else -> HTTP 200 (OK) response, with the currentAccounts in the response body.
+	 * Retrieves a currentAccounts by its ID. if currentAccounts is not found ->
+	 * HTTP 404 (NOT_FOUND), with a body null. else -> HTTP 200 (OK) response, with
+	 * the currentAccounts in the response body.
+	 * 
 	 * @param id The ID of the currentAccounts to retrieve.
-	 * @return A ResponseEntity containing the retrieved currentAccounts object, or an appropriate HTTP response if the currentAccounts does not exist.
+	 * @return A ResponseEntity containing the retrieved currentAccounts object, or
+	 *         an appropriate HTTP response if the currentAccounts does not exist.
 	 */
 	@GetMapping("/{id}")
-	ResponseEntity<CurrentAccount> getAccountById(@PathVariable Long id){
+	ResponseEntity<CurrentAccount> getAccountById(@PathVariable Long id) {
 		CurrentAccount currentAccountFetched = currentAccountService.getCurrentAccountById(id);
-		
-	    if (currentAccountFetched == null) {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-	    } else {
-	        return ResponseEntity.status(HttpStatus.OK).body(currentAccountFetched);
-	    }
+
+		if (currentAccountFetched == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(currentAccountFetched);
+		}
 	}
-	
+
 	/**
-	 * Creates a new currentAccounts with the provided currentAccounts data.
-	 * if creation fails ->  HTTP 400 (BAD_REQUEST) response, with a body null
-	 * if creation is successful -> HTTP 201 (CREATED) with the created currentAccounts in the response body.
+	 * Creates a new currentAccounts with the provided currentAccounts data. if
+	 * creation fails -> HTTP 400 (BAD_REQUEST) response, with a body null if
+	 * creation is successful -> HTTP 201 (CREATED) with the created currentAccounts
+	 * in the response body.
+	 * 
 	 * @param account the account to be created
-	 * @return ResponseEntity<Account> containing the created currentAccounts and the corresponding HTTP response code
+	 * @return ResponseEntity<Account> containing the created currentAccounts and
+	 *         the corresponding HTTP response code
 	 */
 	@PostMapping
-	ResponseEntity<CurrentAccount> saveAccount(@RequestBody CurrentAccount account){
+	ResponseEntity<CurrentAccount> saveAccount(@RequestBody CurrentAccount account) {
 		CurrentAccount newAccount = currentAccountService.createCurrentAccount(account);
-		if(newAccount == null) 
+		if (newAccount == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		else
 			return ResponseEntity.status(HttpStatus.CREATED).body(newAccount);
 	}
-	
+
 //	@PostMapping("/{senderAccountId}/transfer/{receivingAccountId}")
 //	public ResponseEntity<CurrentAccount> doTransfer(@PathVariable long senderAccountId, @PathVariable long receivingAccountId, @RequestParam double amount){
 //		currentAccountService.doVirement(virement);
 //		return ResponseEntity.ok().build();
 //	}
-	
+
 }

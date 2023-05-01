@@ -5,7 +5,6 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,34 +15,33 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
-
 @Entity
 public class Client {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
 	private String name;
 	private String firstname;
 	private String address;
 	private String zipcode;
 	private String city;
 	private String phone;
-	
-	@ManyToOne(cascade = {CascadeType.PERSIST})
+
+	@ManyToOne(cascade = { CascadeType.PERSIST })
 	@JoinColumn(name = "Advisor_Id")
 	@JsonIgnore
 	private Advisor advisor;
-	
-	@OneToMany(mappedBy = "client", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+
+	@OneToMany(mappedBy = "client", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
 	@JsonIgnore
 	private Set<SavingsAccount> savingAccountsList = new HashSet<SavingsAccount>();
-	
-	@OneToMany(mappedBy = "client", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+
+	@OneToMany(mappedBy = "client", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
 	@JsonIgnore
 	private Set<CurrentAccount> currentAccountList = new HashSet<CurrentAccount>();
-	
-	//Constructor 
+
+	// Constructor
 	public Client(String name, String firstname, String address, String zipcode, String city, String phone) {
 		super();
 		this.name = name;
@@ -57,12 +55,10 @@ public class Client {
 	public Client() {
 		super();
 	}
-	
-	//Class Method
-	
-	
-	
-	//Getters and Setters
+
+	// Class Method
+
+	// Getters and Setters
 	public long getId() {
 		return id;
 	}
@@ -119,13 +115,6 @@ public class Client {
 		this.phone = phone;
 	}
 
-	//To String
-	@Override
-	public String toString() {
-		return "Client [id=" + id + ", name=" + name + ", firstname=" + firstname + ", address=" + address
-				+ ", zipcode=" + zipcode + ", city=" + city + ", phone=" + phone + "]";
-	}
-
 	public Advisor getAdvisor() {
 		return advisor;
 	}
@@ -133,14 +122,10 @@ public class Client {
 	public void setAdvisor(Advisor advisor) {
 		this.advisor = advisor;
 	}
-	
-	
+
 	public void setConseillerAttribuer(Advisor conseillerAttribuer) {
 		this.advisor = conseillerAttribuer;
 	}
-
-
-	
 
 	public Set<SavingsAccount> getSavingAccountsList() {
 		return savingAccountsList;
@@ -162,20 +147,27 @@ public class Client {
 		savingAccountsList.add(savingsAccount);
 		savingsAccount.setClient(this);
 	}
-	
+
 	public void removeSavingAccount(SavingsAccount savingsAccount) {
 		savingAccountsList.remove(savingsAccount);
 		savingsAccount.setClient(null);
 	}
-	
 
 	public void addCurrentAccount(CurrentAccount currentAccount) {
 		currentAccountList.add(currentAccount);
 		currentAccount.setClient(this);
 	}
-	
+
 	public void removeAccount(CurrentAccount currentAccount) {
 		currentAccountList.remove(currentAccount);
 		currentAccount.setClient(null);
 	}
+
+	// To String
+	@Override
+	public String toString() {
+		return "Client [id=" + id + ", name=" + name + ", firstname=" + firstname + ", address=" + address
+				+ ", zipcode=" + zipcode + ", city=" + city + ", phone=" + phone + "]";
+	}
+
 }

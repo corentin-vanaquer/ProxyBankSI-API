@@ -28,10 +28,16 @@ public class ClientController {
 	public ClientController(IClientService client) {
 		this.client = client;
 	}
-	
-	//Use to get a List of all the clients
+
+	/**
+	 * Retrieves a list of all clients from the system.
+	 *
+	 * @return A ResponseEntity object with a list of Client objects and HTTP status
+	 *         code 200 (OK) if clients are found, or a ResponseEntity object with
+	 *         HTTP status code 204 (NO_CONTENT) if no clients are found.
+	 */
 	@GetMapping
-	public ResponseEntity<List<Client>> listClients(){
+	public ResponseEntity<List<Client>> listClients() {
 		List<Client> clients = new ArrayList<>();
 		clients.addAll(client.getAllClients());
 		if (clients.isEmpty()) {
@@ -39,39 +45,72 @@ public class ClientController {
 		}
 		return new ResponseEntity<>(clients, HttpStatus.OK);
 	}
-	
-	//Use to create a new Client
+
+	/**
+	 * Saves a new client to the system.
+	 *
+	 * @param c The Client object to be saved.
+	 * @return A ResponseEntity object with the saved Client object and HTTP status
+	 *         code 201 (CREATED) if the client is saved successfully, or a
+	 *         ResponseEntity object with HTTP status code 400 (BAD_REQUEST) if the
+	 *         client is null or fails to save.
+	 */
 	@PostMapping
 	public ResponseEntity<Client> saveClient(@RequestBody Client c) {
 		Client newClient = client.saveClient(c);
-		if (newClient == null ) {
+		if (newClient == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
 			return new ResponseEntity<>(newClient, HttpStatus.CREATED);
 		}
 	}
 
-	//Use to get a single Client by his/her id
+	/**
+	 * Retrieves a client with the given ID.
+	 *
+	 * @param id The ID of the client to retrieve.
+	 * @return A ResponseEntity object with the Client object and HTTP status code
+	 *         200 (OK) if the client is found, or a ResponseEntity object with HTTP
+	 *         status code 404 (NOT_FOUND) if the client is not found.
+	 */
 	@GetMapping("/{id}")
-	ResponseEntity<Optional<Client>> getClientById(@PathVariable Long id){
+	ResponseEntity<Optional<Client>> getClientById(@PathVariable Long id) {
 		Optional<Client> clientFetched = client.getById(id);
-		
-	    if (clientFetched == null) {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-	    } else {
-	        return ResponseEntity.status(HttpStatus.OK).body(clientFetched);
-	    }
+
+		if (clientFetched == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(clientFetched);
+		}
 	}
 
-	//Use To Delete a Client 
+	/**
+	 * Deletes the client with the given ID.
+	 *
+	 * @param id The ID of the client to delete.
+	 */
 	@DeleteMapping("/{id}")
-	public void deleteClient(@PathVariable long id){
-		if(client.getById(id)==null) {
-			new ResponseEntity<>(HttpStatus.BAD_REQUEST);	
+	public void deleteClient(@PathVariable long id) {
+		if (client.getById(id) == null) {
+			new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		client.deleteById(id);
 	}
-	
+
+	/**
+	 * Updates the details of an existing client with the given client object. If
+	 * the client with the given ID exists in the database, its details are updated
+	 * and a ResponseEntity object with the updated client object and HTTP status OK
+	 * is returned. If the client with the given ID does not exist, a new client is
+	 * saved with the given details and a ResponseEntity object with the saved
+	 * client object and HTTP status CREATED is returned.
+	 *
+	 * @param c The client object with updated details.
+	 * @return ResponseEntity object with the updated client object and HTTP status
+	 *         OK if the client with the given ID exists, or a ResponseEntity object
+	 *         with the saved client object and HTTP status CREATED if the client
+	 *         with the given ID does not exist.
+	 */
 	@PutMapping
 	public ResponseEntity<Client> updateClient(@RequestBody Client c) {
 		if (client.clientIdExist(c.getId())) {
@@ -81,6 +120,5 @@ public class ClientController {
 		Client saveClient = client.updateClient(c);
 		return ResponseEntity.created(URI.create("clients/" + saveClient.getId())).body(saveClient);
 	}
-	
-	
+
 }
