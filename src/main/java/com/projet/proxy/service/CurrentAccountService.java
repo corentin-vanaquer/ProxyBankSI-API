@@ -22,6 +22,10 @@ public class CurrentAccountService implements ICurrentAccountService {
 
 	@Autowired
 	ClientDao clientDao;
+	
+	public CurrentAccountService(CurrentAccountDao currentAccountDao) {
+        this.currentAccountDao = currentAccountDao;
+    }
 
 	public CurrentAccountService() {
 	}
@@ -130,7 +134,6 @@ public class CurrentAccountService implements ICurrentAccountService {
 	 */
 	@Override
 	public void doTransfert(CurrentAccount senderAccount, CurrentAccount receivingAccount, double d) {
-		System.out.println(senderAccount + " " + receivingAccount + " " + d);
 		senderAccount.withdrawal(d);
 		receivingAccount.deposit(d);
 
