@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.projet.proxy.model.Client;
 
 public interface IClientService {
-	
+
 	List<Client> getAllClients();
 
 	Client saveClient(Client client);
@@ -20,11 +20,12 @@ public interface IClientService {
 	Client updateClient(Client client);
 
 	void addAdvisorToClient(Long clientId, Long advisorId);
+
 	
 	void addClientToCurrentAccount(Long ClientId, Long accountId);
 	
 	void addClientToSavingAccount(Long ClientId, Long accountId);
-	
+
 	List<Object> getAccountsFromClient(Long id);
 
 }

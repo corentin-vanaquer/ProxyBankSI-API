@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.projet.proxy.model.Client;
 
 @Repository
-public interface ClientDao extends JpaRepository<Client, Long>  {
+public interface ClientDao extends JpaRepository<Client, Long> {
 
 }

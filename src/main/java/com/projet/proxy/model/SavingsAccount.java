@@ -20,22 +20,20 @@ public class SavingsAccount {
 	private LocalDateTime dateCreation;
 	private double solde;
 	private double rate;
-	
-	
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
 	@JoinColumn(name = "Client_Id")
 	private Client client;
-	
-	public SavingsAccount() {}
 
-	
+	public SavingsAccount() {
+	}
+
 	public SavingsAccount(String accountNumber, double solde, double rate) {
 		this.accountNumber = accountNumber;
 		this.dateCreation = LocalDateTime.now();
 		this.solde = solde;
 		this.rate = rate;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -86,12 +84,11 @@ public class SavingsAccount {
 	}
 
 
+
 	@Override
 	public String toString() {
 		return "SavingsAccount [id=" + id + ", accountNumber=" + accountNumber + ", dateCreation=" + dateCreation
 				+ ", solde=" + solde + ", rate=" + rate + ", client=" + client + "]";
 	}
-	
-	
-	
+
 }

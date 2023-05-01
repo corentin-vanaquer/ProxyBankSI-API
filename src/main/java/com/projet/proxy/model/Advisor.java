@@ -1,9 +1,9 @@
 package com.projet.proxy.model;
 
-
-
 import java.util.HashSet;
 import java.util.Set;
+
+import com.projet.proxy.service.AdvisorService;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -12,8 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
-@Entity 
-public class Advisor  {
+@Entity
+public class Advisor {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +21,12 @@ public class Advisor  {
 	private String firstName;
 	private String LastName;
 	private String email;
-	
-	@OneToMany(mappedBy= "advisor", cascade = {CascadeType.PERSIST})
+
+	@OneToMany(mappedBy = "advisor", cascade = { CascadeType.PERSIST })
 	private Set<Client> clients = new HashSet<Client>();
 
-	public Advisor() {}
+	public Advisor() {
+	}
 
 	public Advisor(String firstName, String lastName, String email) {
 		super();
@@ -34,7 +35,6 @@ public class Advisor  {
 		this.email = email;
 	}
 
-	
 	// Getters and Setters
 	public Long getId() {
 		return id;
@@ -68,11 +68,6 @@ public class Advisor  {
 		this.email = email;
 	}
 
-	@Override
-	public String toString() {
-		return "Advisor [id=" + id + ", firstName=" + firstName + ", LastName=" + LastName + ", email=" + email + "]";
-	}
-	
 	public Set<Client> getClients() {
 		return clients;
 	}
@@ -80,13 +75,20 @@ public class Advisor  {
 	public void setClients(Set<Client> clients) {
 		this.clients = clients;
 	}
-	
+
 	public void addClient(Client client) {
-		clients.add(client);
-		client.setConseillerAttribuer(this);
+	    if (this.clients.size() < 10) {
+	        this.clients.add(client);
+	        client.setAdvisor(this);
+	    } else {
+	        AdvisorService advisorService = new AdvisorService();
+	        advisorService.addClientToAnotherAdvisor(this, client);
+	    }
 	}
-	
-	
-	
- 
+
+	@Override
+	public String toString() {
+		return "Advisor [id=" + id + ", firstName=" + firstName + ", LastName=" + LastName + ", email=" + email + "]";
+	}
+
 }

@@ -20,16 +20,17 @@ public class CurrentAccount {
 	private LocalDateTime dateCreation;
 	private double solde;
 	private Integer threshold;
-	
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
 	@JoinColumn(name = "Client_Id")
 	private Client client;
-	
+
 //	@OneToMany(mappedBy = "firstAccount", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
 //	@JsonIgnore
 //	private Set<Virement> virementList = new HashSet<Virement>();
-	
-	public CurrentAccount() {}
+
+	public CurrentAccount() {
+	}
 
 	public CurrentAccount(String accountNumber, double solde, Integer threshold) {
 		this.accountNumber = accountNumber;
@@ -37,20 +38,32 @@ public class CurrentAccount {
 		this.threshold = threshold;
 		this.dateCreation = LocalDateTime.now();
 	}
-	
+
+	public CurrentAccount(Long id, double solde) {
+		this.id = id;
+		this.solde = solde;
+	}
+
+	/**
+	 * 
+	 * Withdraws a given amount from the account balance if the balance is
+	 * sufficient.
+	 * 
+	 * @param amount the amount to withdraw
+	 * @throws IllegalArgumentException if the account balance is insufficient to
+	 *                                  perform the operation
+	 */
 	public void withdrawal(double amount) {
-		if ( amount <= solde) {
+		if (amount <= solde) {
 			solde -= amount;
 		} else {
 			throw new IllegalArgumentException("Not Enough Fond");
 		}
 	}
-	
+
 	public void deposit(double amount) {
 		solde += amount;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -105,8 +118,5 @@ public class CurrentAccount {
 		return "CurrentAccount [id=" + id + ", accountNumber=" + accountNumber + ", dateCreation=" + dateCreation
 				+ ", solde=" + solde + ", threshold=" + threshold + ", client=" + client + "]";
 	}
-	
-	
-	
+
 }
-	

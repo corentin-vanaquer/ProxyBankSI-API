@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projet.proxy.model.Advisor;
+import com.projet.proxy.model.Client;
 import com.projet.proxy.repository.AdvisorDao;
 
 @Service("advisor")
 public class AdvisorService implements IAdvisorService {
-	
+
 	@Autowired
 	private AdvisorDao advisorDao;
 
@@ -22,7 +23,6 @@ public class AdvisorService implements IAdvisorService {
 
 	@Override
 	public Advisor saveAdvisor(Advisor advisor) {
-		// TODO Auto-generated method stub
 		return advisorDao.save(advisor);
 	}
 
@@ -33,7 +33,7 @@ public class AdvisorService implements IAdvisorService {
 
 	@Override
 	public void deleteById(Long id) {
-		advisorDao.deleteById(id);	
+		advisorDao.deleteById(id);
 	}
 
 	@Override
@@ -44,6 +44,30 @@ public class AdvisorService implements IAdvisorService {
 	@Override
 	public boolean advisorIdExist(Long id) {
 		return advisorDao.existsById(id);
+	}
+
+	@Override
+	public void addClientToAnotherAdvisor(Advisor advisor, Client client) {
+		if (advisor.getClients().size() > 10) {
+			Advisor otherAdvisor = findFreeAdvisor();
+			if (otherAdvisor == null) {
+				throw new RuntimeException("No advisor available to add new clients.");
+			}
+			otherAdvisor.addClient(client);
+		} else {
+			advisor.addClient(client);
+		}
+	}
+
+	@Override
+	public Advisor findFreeAdvisor() {
+		List<Advisor> advisors = getAllAdvisors();
+		for (Advisor advisor : advisors) {
+			if (advisor.getClients().size() < 10) {
+				return advisor;
+			}
+		}
+		return null;
 	}
 
 }

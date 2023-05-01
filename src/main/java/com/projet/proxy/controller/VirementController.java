@@ -16,27 +16,18 @@ public class VirementController {
 	@Autowired
 	ICurrentAccountService currentAccountService;
 
-//	@PostMapping
-//	public ResponseEntity<String> doTransfert(@RequestParam("senderId") long senderId, @RequestParam("receiverId") long receiverId,
-//			@RequestParam("amount") double amount) {
-//		try {
-//			currentAccountService.doVirement(senderId, receiverId, amount);
-//			return ResponseEntity.ok("Virement effectué avec succès");
-//		} catch (IllegalArgumentException e) {
-//			return ResponseEntity.badRequest().body(e.getMessage());
-//		}
-//	}
-	
+	/**
+	 * 
+	 * This method performs a transfer between two bank accounts using the given
+	 * Virement object. The current account service is used to execute the transfer.
+	 * 
+	 * @param virement The Virement object containing the necessary information for
+	 *                 the transfer.
+	 * @return void
+	 */
 	@PostMapping
 	public void doTransfert(@RequestBody Virement virement) {
-//		System.out.println(virement);
-//		try {
-			currentAccountService.doVirement(virement);
-			
-
-//		} catch (IllegalArgumentException e) {
-//			return ResponseEntity.badRequest().body(e.getMessage());
-//		}
+		currentAccountService.doVirement(virement);
 	}
 
 }
