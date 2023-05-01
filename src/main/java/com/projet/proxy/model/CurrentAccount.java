@@ -113,4 +113,10 @@ public class CurrentAccount {
 		this.client = client;
 	}
 
+	@Override
+	public String toString() {
+		return "CurrentAccount [id=" + id + ", accountNumber=" + accountNumber + ", dateCreation=" + dateCreation
+				+ ", solde=" + solde + ", threshold=" + threshold + ", client=" + client + "]";
+	}
+
 }

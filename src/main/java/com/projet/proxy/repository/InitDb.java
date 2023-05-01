@@ -49,10 +49,10 @@ public class InitDb {
 		advisorOne.addClient(clientOne);
 		advisorOne.addClient(clientTwo);
 		advisorTwo.addClient(clientThree);
-
-		// ~~~~~ CASCADE PERSIST ~~~~~
-		advisorDao.save(advisorOne);
-		advisorDao.save(advisorTwo);
+		
+		// ~~~~~ CASCADE PERSIST  ~~~~~
+	advisorDao.save(advisorOne);
+	advisorDao.save(advisorTwo);
 
 	}
 

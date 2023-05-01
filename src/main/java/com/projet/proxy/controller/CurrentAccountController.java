@@ -2,6 +2,7 @@ package com.projet.proxy.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,14 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projet.proxy.model.CurrentAccount;
+import com.projet.proxy.service.IClientService;
 import com.projet.proxy.service.ICurrentAccountService;
 
 @RestController
 @RequestMapping("/currentAccounts")
 public class CurrentAccountController {
 
+
+	@Autowired ICurrentAccountService currentAccountService;
+	
 	@Autowired
-	ICurrentAccountService currentAccountService;
+	IClientService clientService;
 
 	/**
 	 * Retrieves the list of currentAccounts. If the list is empty -> HTTP 404
@@ -89,5 +94,18 @@ public class CurrentAccountController {
 //		currentAccountService.doVirement(virement);
 //		return ResponseEntity.ok().build();
 //	}
+	
+	@PostMapping("/add-client-to-account")
+	public ResponseEntity<CurrentAccount> assignAccountToClient(@RequestBody Map<String, Long> request) {
+	    Long clientId = request.get("clientId");
+	    Long accountId = request.get("accountId");
+
+	    if (clientId == null || accountId == null) {
+	        return ResponseEntity.badRequest().body(null);
+	    }
+
+	    clientService.addClientToCurrentAccount(clientId, accountId);
+	    return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
 
 }

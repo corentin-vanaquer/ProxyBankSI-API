@@ -2,6 +2,7 @@ package com.projet.proxy.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projet.proxy.model.SavingsAccount;
+import com.projet.proxy.service.IClientService;
 import com.projet.proxy.service.ISavingAccountService;
 
 @RestController
@@ -22,6 +24,10 @@ public class SavingAccountController {
 
 	@Autowired
 	ISavingAccountService savingAccountService;
+
+	
+	@Autowired
+	IClientService clientService;
 
 	@GetMapping
 	ResponseEntity<List<SavingsAccount>> getAccounts() {
@@ -64,5 +70,19 @@ public class SavingAccountController {
 //		
 //		return ResponseEntity.ok().build();
 //	}
+
+	
+	@PostMapping("/add-client-to-account")
+	public ResponseEntity<SavingsAccount> assignAccountToClient(@RequestBody Map<String, Long> request) {
+	    Long clientId = request.get("clientId");
+	    Long accountId = request.get("accountId");
+
+	    if (clientId == null || accountId == null) {
+	        return ResponseEntity.badRequest().body(null);
+	    }
+
+	    clientService.addClientToSavingAccount(clientId, accountId);
+	    return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
 
 }

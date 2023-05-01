@@ -115,6 +115,14 @@ public class Client {
 		this.phone = phone;
 	}
 
+
+
+	@Override
+	public String toString() {
+		return "Client [id=" + id + ", name=" + name + ", firstname=" + firstname + ", address=" + address
+				+ ", zipcode=" + zipcode + ", city=" + city + ", phone=" + phone + "";
+	}
+
 	public Advisor getAdvisor() {
 		return advisor;
 	}
