@@ -3,6 +3,8 @@ package com.projet.proxy.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.projet.proxy.service.AdvisorService;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -75,8 +77,13 @@ public class Advisor {
 	}
 
 	public void addClient(Client client) {
-		clients.add(client);
-		client.setConseillerAttribuer(this);
+	    if (this.clients.size() < 10) {
+	        this.clients.add(client);
+	        client.setAdvisor(this);
+	    } else {
+	        AdvisorService advisorService = new AdvisorService();
+	        advisorService.addClientToAnotherAdvisor(this, client);
+	    }
 	}
 
 	@Override
