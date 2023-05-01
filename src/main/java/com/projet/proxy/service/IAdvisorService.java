@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.projet.proxy.model.Advisor;
+import com.projet.proxy.model.Client;
 
 public interface IAdvisorService {
 	List<Advisor> getAllAdvisors();
@@ -17,5 +18,9 @@ public interface IAdvisorService {
 	void deleteById(Long id);
 
 	boolean advisorIdExist(Long id);
+	
+	void addClientToAnotherAdvisor(Advisor advisor, Client client);
+	
+	Advisor findFreeAdvisor();
 
 }
