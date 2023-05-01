@@ -84,6 +84,13 @@ public class SavingsAccount {
 	public void setClient(Client client) {
 		this.client = client;
 	}
+
+
+	@Override
+	public String toString() {
+		return "SavingsAccount [id=" + id + ", accountNumber=" + accountNumber + ", dateCreation=" + dateCreation
+				+ ", solde=" + solde + ", rate=" + rate + ", client=" + client + "]";
+	}
 	
 	
 	

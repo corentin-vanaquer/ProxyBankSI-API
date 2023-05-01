@@ -9,8 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.projet.proxy.model.Advisor;
 import com.projet.proxy.model.Client;
+import com.projet.proxy.model.CurrentAccount;
+import com.projet.proxy.model.SavingsAccount;
 import com.projet.proxy.repository.AdvisorDao;
 import com.projet.proxy.repository.ClientDao;
+import com.projet.proxy.repository.CurrentAccountDao;
+import com.projet.proxy.repository.SavingAccountDao;
 
 @Service("client")
 public class ClientService implements IClientService{
@@ -20,6 +24,12 @@ public class ClientService implements IClientService{
 	
 	@Autowired
 	private AdvisorDao advisorDao;
+	
+	@Autowired
+	private CurrentAccountDao currentAccountDao;
+	
+	@Autowired
+	private SavingAccountDao savingAccountDao;
 
 	public ClientService(ClientDao clientDao) {
 		this.clientDao = clientDao;
@@ -80,6 +90,32 @@ public class ClientService implements IClientService{
 	    } else {
 	        throw new IllegalArgumentException("Client non trouvé pour l'id: " + id);
 	    }
+	}
+
+	@Override
+	public void addClientToCurrentAccount(Long clientId, Long accountId) {
+		Optional<CurrentAccount> account = currentAccountDao.findById(accountId);
+		Optional<Client> client = clientDao.findById(clientId);
+		if (account.isPresent() && client.isPresent()) {
+			CurrentAccount accountOne = account.get();
+			Client clientOne = client.get();
+			clientOne.addCurrentAccount(accountOne);
+			clientDao.save(clientOne);
+		}
+		
+	}
+
+	@Override
+	public void addClientToSavingAccount(Long clientId, Long accountId) {
+		Optional<SavingsAccount> account = savingAccountDao.findById(accountId);
+		Optional<Client> client = clientDao.findById(clientId);
+		if (account.isPresent() && client.isPresent()) {
+			SavingsAccount accountOne = account.get();
+			Client clientOne = client.get();
+			clientOne.addSavingAccount(accountOne);
+			clientDao.save(clientOne);
+		}
+		
 	}
 
 

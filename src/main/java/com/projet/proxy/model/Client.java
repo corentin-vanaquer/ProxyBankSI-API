@@ -119,11 +119,12 @@ public class Client {
 		this.phone = phone;
 	}
 
-	//To String
+
+
 	@Override
 	public String toString() {
 		return "Client [id=" + id + ", name=" + name + ", firstname=" + firstname + ", address=" + address
-				+ ", zipcode=" + zipcode + ", city=" + city + ", phone=" + phone + "]";
+				+ ", zipcode=" + zipcode + ", city=" + city + ", phone=" + phone + "";
 	}
 
 	public Advisor getAdvisor() {

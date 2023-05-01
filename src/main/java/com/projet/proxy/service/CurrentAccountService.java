@@ -80,7 +80,7 @@ public class CurrentAccountService implements ICurrentAccountService {
 		if (account.isPresent() && client.isPresent()) {
 			CurrentAccount accountOne = account.get();
 			Client clientOne = client.get();
-			accountOne.setClient(clientOne);
+			clientOne.addCurrentAccount(accountOne);
 			currentAccountDao.save(accountOne);
 		}
 	}

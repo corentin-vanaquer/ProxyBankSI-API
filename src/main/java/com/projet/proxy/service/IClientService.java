@@ -21,6 +21,10 @@ public interface IClientService {
 
 	void addAdvisorToClient(Long clientId, Long advisorId);
 	
+	void addClientToCurrentAccount(Long ClientId, Long accountId);
+	
+	void addClientToSavingAccount(Long ClientId, Long accountId);
+	
 	List<Object> getAccountsFromClient(Long id);
 
 }

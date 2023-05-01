@@ -68,14 +68,14 @@ public class SavingAccountService implements ISavingAccountService {
 	}
 
 	@Override
-	public void addClientToSavingAccount(Long ClientId, Long accountId) {
-		Optional<SavingsAccount> savingsAccount = savingAccountDao.findById(accountId);
-		Optional<Client> client = clientDao.findById(ClientId);
-		if(savingsAccount.isPresent() && client.isPresent()) {
-			SavingsAccount savingAccountOne = savingsAccount.get();
+	public void addClientToSavingAccount(Long clientId, Long accountId) {
+		Optional<SavingsAccount> account = savingAccountDao.findById(accountId);
+		Optional<Client> client = clientDao.findById(clientId);
+		if(account.isPresent() && client.isPresent()) {
+			SavingsAccount accountOne = account.get();
 			Client clientOne = client.get();
-			savingAccountOne.setClient(clientOne);
-			savingAccountDao.save(savingAccountOne);
+			clientOne.addSavingAccount(accountOne);
+			savingAccountDao.save(accountOne);
 	}
 
 	}
